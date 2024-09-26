@@ -4,9 +4,7 @@ from dotenv import load_dotenv
 from google.cloud import firestore
 from langchain_google_firestore import FirestoreChatMessageHistory
 from langchain_openai import ChatOpenAI
-from langchain.memory import SupabaseChatMessageHistory
 
-SupabaseChatMessageHistory()
 """
 Steps to replicate this example:
 1. Create a Firebase account
@@ -56,6 +54,6 @@ while True:
     chat_history.add_user_message(human_input)
 
     ai_response = model.invoke(chat_history.messages)
-    chat_history.add_ai_message(ai_response.content)
+    chat_history.add_ai_message(ai_response.content) # type: ignore
 
     print(f"AI: {ai_response.content}")
