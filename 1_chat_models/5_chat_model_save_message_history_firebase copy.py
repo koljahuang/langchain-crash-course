@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 from google.cloud import firestore
 from langchain_google_firestore import FirestoreChatMessageHistory
 from langchain_openai import ChatOpenAI
+from langchain.memory import SupabaseChatMessageHistory
 
+SupabaseChatMessageHistory()
 """
 Steps to replicate this example:
 1. Create a Firebase account
