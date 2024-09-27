@@ -62,9 +62,10 @@ query_vector_store("chroma_db_with_metadata", query,
 # 'fetch_k' specifies the number of documents to initially fetch based on similarity.
 # 'lambda_mult' controls the diversity of the results: 1 for minimum diversity, 0 for maximum.
 # Use this when you want to avoid redundancy and retrieve diverse yet relevant documents.
-# Note: Relevance measures how closely documents match the query.
-# Note: Diversity ensures that the retrieved documents are not too similar to each other,
+# Note: Relevance（相关性） measures how closely documents match the query.
+# Note: Diversity（多样性） ensures that the retrieved documents are not too similar to each other,
 #       providing a broader range of information.
+# 在实际应用中，fetch_k 通常会大于或等于 k，因为可能需要从多个候选项中进行多轮选择才能得到最优的 k 个结果。
 print("\n--- Using Max Marginal Relevance (MMR) ---")
 query_vector_store(
     "chroma_db_with_metadata",
@@ -74,7 +75,7 @@ query_vector_store(
     {"k": 3, "fetch_k": 20, "lambda_mult": 0.5},
 )
 
-# 3. Similarity Score Threshold
+# 3. Similarity Score Threshold 之前案例都是用这个
 # This method retrieves documents that exceed a certain similarity score threshold.
 # 'score_threshold' sets the minimum similarity score a document must have to be considered relevant.
 # Use this when you want to ensure that only highly relevant documents are retrieved, filtering out less relevant ones.
