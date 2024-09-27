@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
+        "chromadb",
         "Firestore",
-        "openai"
+        "openai",
+        "vectorstores"
     ]
 }

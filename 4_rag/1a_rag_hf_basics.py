@@ -1,9 +1,9 @@
 import os
 
+from sentence_transformers import SentenceTransformer
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
 
 # Define the directory containing the text file and the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -33,18 +33,20 @@ if not os.path.exists(persistent_directory):
     print(f"Number of document chunks: {len(docs)}")
     print(f"Sample chunk:\n{docs[0].page_content}\n")
 
-    # Create embeddings
-    print("\n--- Creating embeddings ---")
-    embedding_model = OpenAIEmbeddings(
-        model="text-embedding-3-small"
-    )  # Update to a valid embedding model if needed
-    print("\n--- Finished creating embeddings ---")
+    # Create embeddings function
+    from chromadb.utils import embedding_functions
+    import chromadb
+    from chromadb.db.base import UniqueConstraintError
+    em = embedding_functions.SentenceTransformerEmbeddingFunction()
+ 
+    client = chromadb.PersistentClient(persistent_directory)  # data stored in 'db' folder
 
-    # Create the vector store and persist it automatically
-    print("\n--- Creating vector store ---")
-    db = Chroma.from_documents(
-        docs, embedding_model, persist_directory=persistent_directory)
-    print("\n--- Finished creating vector store ---")
+    try:
+        collection = client.create_collection(name='article', embedding_function=em) # type: ignore
+    except UniqueConstraintError:  # already exist collection
+        collection = client.get_collection(name='article', embedding_function=em) # type: ignore
 
-else:
-    print("Vector store already exists. No need to initialize.")
+    collection.add(
+        documents = [doc.page_content for doc in docs],
+        ids = list(map(lambda x: str(x), list(range(len(docs))))),
+    )
