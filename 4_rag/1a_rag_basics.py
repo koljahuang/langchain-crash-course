@@ -4,6 +4,8 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
+from langchain_core.documents.base import Document
+from typing import List
 
 # Define the directory containing the text file and the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -22,29 +24,29 @@ if not os.path.exists(persistent_directory):
 
     # Read the text content from the file
     loader = TextLoader(file_path)
-    documents = loader.load()
+    documents: List[Document] = loader.load() # 列表中就一个元素
 
-    # Split the document into chunks
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0) # 1000 tokens
-    docs = text_splitter.split_documents(documents)
+#     # Split the document into chunks
+#     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0) # 1000 tokens
+#     docs = text_splitter.split_documents(documents)
 
-    # Display information about the split documents
-    print("\n--- Document Chunks Information ---")
-    print(f"Number of document chunks: {len(docs)}")
-    print(f"Sample chunk:\n{docs[0].page_content}\n")
+#     # Display information about the split documents
+#     print("\n--- Document Chunks Information ---")
+#     print(f"Number of document chunks: {len(docs)}")
+#     print(f"Sample chunk:\n{docs[0].page_content}\n")
 
-    # Create embeddings
-    print("\n--- Creating embeddings ---")
-    embedding_model = OpenAIEmbeddings(
-        model="text-embedding-3-small"
-    )  # Update to a valid embedding model if needed
-    print("\n--- Finished creating embeddings ---")
+#     # Create embeddings
+#     print("\n--- Creating embeddings ---")
+#     embedding_model = OpenAIEmbeddings(
+#         model="text-embedding-3-small"
+#     )  # Update to a valid embedding model if needed
+#     print("\n--- Finished creating embeddings ---")
 
-    # Create the vector store and persist it automatically
-    print("\n--- Creating vector store ---")
-    db = Chroma.from_documents(
-        docs, embedding_model, persist_directory=persistent_directory)
-    print("\n--- Finished creating vector store ---")
+#     # Create the vector store and persist it automatically
+#     print("\n--- Creating vector store ---")
+#     db = Chroma.from_documents(
+#         docs, embedding_model, persist_directory=persistent_directory)
+#     print("\n--- Finished creating vector store ---")
 
-else:
-    print("Vector store already exists. No need to initialize.")
+# else:
+#     print("Vector store already exists. No need to initialize.")
