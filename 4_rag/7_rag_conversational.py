@@ -75,7 +75,7 @@ qa_system_prompt = (
 qa_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", qa_system_prompt),
-        MessagesPlaceholder("chat_history"),
+        MessagesPlaceholder("chat_history"),  # chat_history 叫啥都可以
         ("human", "{input}"),
     ]
 )
@@ -85,6 +85,8 @@ qa_prompt = ChatPromptTemplate.from_messages(
 question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
 
 # Create a retrieval chain that combines the history-aware retriever and the question answering chain
+# 这个链条首先使用 history_aware_retriever 来检索与当前问题相关的文档或信息片段。（get information from vector store）
+# 然后，它将这些检索到的信息传递给 question_answer_chain，后者再将所有上下文信息组织起来并传递给 LLM 生成最终的答案。
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
 
