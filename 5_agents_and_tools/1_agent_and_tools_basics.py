@@ -50,7 +50,7 @@ agent = create_react_agent(
 
 # Create an agent executor from the agent and tools
 agent_executor = AgentExecutor.from_agent_and_tools(
-    agent=agent,
+    agent=agent, # type: ignore
     tools=tools,
     verbose=True,
 )

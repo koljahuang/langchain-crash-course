@@ -62,7 +62,7 @@ agent = create_structured_chat_agent(llm=llm, tools=tools, prompt=prompt)
 # AgentExecutor is responsible for managing the interaction between the user input, the agent, and the tools
 # It also handles memory to ensure context is maintained throughout the conversation
 agent_executor = AgentExecutor.from_agent_and_tools(
-    agent=agent,
+    agent=agent, # type: ignore
     tools=tools,
     verbose=True,
     memory=memory,  # Use the conversation memory to maintain context

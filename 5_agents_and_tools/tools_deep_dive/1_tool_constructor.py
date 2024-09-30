@@ -70,7 +70,7 @@ agent = create_tool_calling_agent(
 
 # Create the agent executor
 agent_executor = AgentExecutor.from_agent_and_tools(
-    agent=agent,  # The agent to execute
+    agent=agent,  # The agent to execute # type: ignore
     tools=tools,  # List of tools available to the agent
     verbose=True,  # Enable verbose logging
     handle_parsing_errors=True,  # Handle parsing errors gracefully

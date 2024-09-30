@@ -30,3 +30,6 @@ for i, doc in enumerate(relevant_docs, 1):
     print(f"Document {i}:\n{doc.page_content}\n")
     if doc.metadata:
         print(f"Source: {doc.metadata.get('source', 'Unknown')}\n")
+
+
+# install vscode plugin of SQlite viewer will help to display data as tables
